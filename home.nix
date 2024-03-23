@@ -162,11 +162,11 @@ in {
       userEmail = "altamashjahangirkhan123@gmail.com"; # FIXME: set your git email
       userName = "ajkdrag"; #FIXME: set your git username
       extraConfig = {
-        url = {
-          "https://oauth2:${secrets.github_token}@github.com" = {
-            insteadOf = "https://github.com";
-          };
-        };
+        #url = {
+        #  "https://oauth2:${secrets.github_token}@github.com" = {
+        #    insteadOf = "https://github.com";
+        #  };
+        #};
         push = {
           default = "current";
           autoSetupRemote = true;
