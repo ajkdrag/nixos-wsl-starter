@@ -43,41 +43,25 @@
     just
 
     # core languages
-    rustup
-    go
-    lua
-    nodejs
     python3
-    typescript
 
-    # rust stuff
-    cargo-cache
-    cargo-expand
-
-    # local dev stuf
-    mkcert
-    httpie
+    # python stuff
+    pdm
 
     # treesitter
     tree-sitter
 
     # language servers
     ccls # c / c++
-    gopls
-    nodePackages.typescript-language-server
     pkgs.nodePackages.vscode-langservers-extracted # html, css, json, eslint
     nodePackages.yaml-language-server
-    sumneko-lua-language-server
     nil # nix
     nodePackages.pyright
 
     # formatters and linters
     alejandra # nix
-    black # python
     ruff # python
     deadnix # nix
-    golangci-lint
-    lua52Packages.luacheck
     nodePackages.prettier
     shellcheck
     shfmt
@@ -90,26 +74,20 @@ in {
     nix-index-database.hmModules.nix-index
   ];
 
-  home.stateVersion = "22.11";
-
   home = {
     username = "${username}";
     homeDirectory = "/home/${username}";
+    stateVersion = "22.11";
 
     sessionVariables.EDITOR = "nvim";
     # FIXME: set your preferred $SHELL
     sessionVariables.SHELL = "/etc/profiles/per-user/${username}/bin/zsh";
-  };
-
-  home.packages =
-    stable-packages
-    ++ unstable-packages
-    ++
+    packages = stable-packages ++ unstable-packages ++ [
     # FIXME: you can add anything else that doesn't fit into the above two lists in here
-    [
-      # pkgs.some-package
-      # pkgs.unstable.some-other-package
+    # pkgs.some-package
+    # pkgs.unstable.some-other-package
     ];
+  };
 
   # FIXME: if you want to version your LunarVim config, add it to the root of this repo and uncomment the next line
   # home.file.".config/lvim/config.lua".source = ./lvim_config.lua;
@@ -127,9 +105,11 @@ in {
       gcloud.disabled = true;
       kubernetes.disabled = false;
       git_branch.style = "242";
-      directory.style = "blue";
-      directory.truncate_to_repo = false;
-      directory.truncation_length = 8;
+      directory = {
+	style = "blue";
+	truncation_length = 8;
+	truncate_to_repo = false;
+      };
       python.disabled = true;
       ruby.disabled = true;
       hostname.ssh_only = false;
@@ -146,9 +126,11 @@ in {
     broot.enable = true;
     broot.enableZshIntegration = true;
 
-    direnv.enable = true;
-    direnv.enableZshIntegration = true;
-    direnv.nix-direnv.enable = true;
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
 
     git = {
       enable = true;
@@ -187,12 +169,14 @@ in {
       enableAutosuggestions = true;
       enableCompletion = true;
       defaultKeymap = "emacs";
-      history.size = 10000;
-      history.save = 10000;
-      history.expireDuplicatesFirst = true;
-      history.ignoreDups = true;
-      history.ignoreSpace = true;
       historySubstringSearch.enable = true;
+      history = {
+      	size = 10000;
+      	save = 10000;
+      	expireDuplicatesFirst = true;
+      	ignoreDups = true;
+      	ignoreSpace = true;
+      };
 
       plugins = [
         {
@@ -218,6 +202,7 @@ in {
         gc = "nix-collect-garbage --delete-old";
         refresh = "source ${config.home.homeDirectory}/.zshrc";
         rebuild = "sudo nixos-rebuild switch --flake ~/configuration";
+	vimrc = "nvim ${config.home.homeDirectory}/.config/vim/.vimrc";
         show_path = "echo $PATH | tr ':' '\n'";
 
         # FIXME: add more git aliases here if you want them

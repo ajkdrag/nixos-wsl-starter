@@ -18,10 +18,12 @@
 
   # FIXME: change your shell here if you don't want zsh
   programs.zsh.enable = true;
-  environment.pathsToLink = ["/share/zsh"];
-  environment.shells = [pkgs.zsh];
-
-  environment.enableAllTerminfo = true;
+  programs.nix-ld.enable = true;
+  environment = {
+    pathsToLink = ["/share/zsh"];
+    shells = [pkgs.zsh];
+    enableAllTerminfo = true;
+  };
 
   security.sudo.wheelNeedsPassword = false;
 
